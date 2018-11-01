@@ -27,9 +27,13 @@ public class EmployeeController {
         if(!e.isPresent()){
             return new ResponseEntity<>("Employee not registered" ,HttpStatus.BAD_REQUEST);
         }
+
         Employee employee = e.get();
 
+        if(employee.getStatus().equals("INACTIVE")){
+            return new ResponseEntity<>("Empoyee is Inactive", HttpStatus.OK);
 
+        }
 
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }

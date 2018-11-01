@@ -5,6 +5,7 @@ import com.kenzan.project.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -20,10 +21,25 @@ public class EmployeeService {
     }
 
     public List<Employee> findAllEmployees(){
-        return (List<Employee>) employeeRepository.findAll();
+        List<Employee> activeEmployees = new ArrayList<>();
+
+        List<Employee> employees = (List<Employee>) employeeRepository.findAll();
+
+        for(Employee e: employees){
+            if(e.getStatus().equals("ACTIVE")){
+                activeEmployees.add(e);
+            }
+        }
+
+        return activeEmployees;
     }
 
     public Optional<Employee> findEmployeeById(Long id) {
+
+        Optional<Employee> employee = employeeRepository.findById(id);
+
+
+
         return employeeRepository.findById(id);
     }
 
@@ -33,12 +49,6 @@ public class EmployeeService {
 
     public void deleteEmployee(Employee employee){
         employeeRepository.delete(employee);
-    }
-
-    public Optional<Employee> findByLastName(String lastName )
-    {
-
-        return employeeRepository.findByLastName( lastName );
     }
 
     public Optional<Employee> findByDateOfBirth(Date dateOfBirth )
